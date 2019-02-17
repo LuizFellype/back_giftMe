@@ -1,0 +1,23 @@
+projects:
+  app:
+    schemaPath: src/schema.graphql
+    extensions:
+      endpoints:
+        default: ${env:APP_ENDPOINT}
+  prisma:
+    schemaPath: src/generated/prisma.graphql
+    extensions:
+      prisma: prisma/prisma.yml
+      codegen:
+        - generator: prisma-binding
+          language: typescript
+          output:
+            binding: src/generated/prisma.ts
+      endpoints:
+        default:
+          url: ${env:PRISMA_ENDPOINT}
+          headers:
+            Authorization: >-
+              Bearer
+              eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJkZWZhdWx0QGRlZmF1bHQiLCJyb2xlcyI6WyJhZG1pbiJdfSwiaWF0IjoxNTMwODE3MzQyLCJleHAiOjE1MzE0MjIxNDJ9.0-Y0r6dOqPiy4X-Ex_iVn_yXL7Pz4qoXfl2oOnXH8YU
+      prepare-bundle: src/generated/prisma.graphql
