@@ -1,4 +1,6 @@
-## Stack starter
+**This is the backend of an app(GiftMe). The goals of the app is to know the present list of  your partner, so you could give whatever their wants.**
+
+## Stack
 
 - Postgres
 - Prisma
@@ -12,6 +14,8 @@ $ cd PROJECT_NAME
 $ yarn
 ```
 - create a `.env` file with the same content as the `.env.example`
+ps: don't forget to double check your IP in docker container to match with PRISMA_ENDPOINT variable.
+
 ```terminal
 $ docker-compose up -d
 $ yarn prisma deploy
