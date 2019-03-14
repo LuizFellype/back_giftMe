@@ -1,8 +1,8 @@
 {
-  "name": "PROJECT_NAME",
+  "name": "GIFT-ME",
   "version": "0.0.0",
   "private": true,
-  "description": "Api graphql prisma of PROJECT_NAME",
+  "description": "Api graphql prisma of GIFT-ME",
   "scripts": {
     "dev": "npm-run-all --parallel start:dev playground",
     "start": "node dist/index.js",
@@ -17,13 +17,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+REPO_URL"
+    "url": "git+https://github.com/LuizFellype/back_giftMe"
   },
-  "author": "xDevel <http://www.xdevel.com.br>",
+  "author": "Luiz Fellype <http://www.xdevel.com.br>",
   "bugs": {
-    "url": "REPO_URL/issues"
+    "url": "https://github.com/LuizFellype/back_giftMe/issues"
   },
-  "homepage": "REPO_URL#readme",
+  "homepage": "https://github.com/LuizFellype/back_giftMe#readme",
   "license": "MIT",
   "dependencies": {
     "dotenv": "^6.2.0",
@@ -42,7 +42,6 @@
   "devDependencies": {
     "@commitlint/cli": "^7.3.1",
     "@commitlint/config-conventional": "^7.3.1",
-    "@types/aws-lambda": "^8.10.17",
     "@types/bcryptjs": "^2.4.2",
     "@types/dotenv": "^6.1.0",
     "@types/lodash": "^4.14.119",
