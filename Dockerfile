@@ -1,8 +1,8 @@
 FROM node:10.12-alpine
 
-ADD . /app/project-name
+ADD . /app/gift-me
 
-WORKDIR /app/project-name
+WORKDIR /app/gift-me
 
 RUN  yarn install --dev
 

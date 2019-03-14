@@ -31,7 +31,7 @@ export class Logger {
         write: (...args: any[]) =>
           escriba({
             loggerEngine: log4js.getLogger(),
-            service: 'YOUR_PROJECT_NAME',
+            service: 'GIFT-ME',
             sensitive: {
               password: {
                 paths: ['body.provider.key'],
