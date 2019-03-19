@@ -1,13 +1,7 @@
-import * as _ from 'lodash'
 import { extractFragmentReplacements } from 'prisma-binding'
-import { Context } from '../interfaces'
+import Mutation from './mutation'
+import Query from './query'
 
-export const resolvers = {
-  Query: {
-    hello: (parent: any, args: any, ctx: Context, info: any) => {
-      return 'Hello World'
-    }
-  }
-}
+export const resolvers = { Query, Mutation }
 
 export const fragmentReplacements = extractFragmentReplacements(resolvers)
