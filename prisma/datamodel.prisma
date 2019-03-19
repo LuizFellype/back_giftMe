@@ -1,3 +1,17 @@
-type Starter {
-  hello: String!
+type Product {
+  id: ID! @unique
+  createdAt: DateTime!
+  postedBy: User!
+  productName: String!
+  url: String!
+}
+
+type User {
+  id: ID! @unique
+  name: String!
+  email: String! @unique
+  password: String!
+  products: [Product!]!
+  partner: User
+  recognizeId: String @unique
 }
