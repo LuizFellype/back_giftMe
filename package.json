@@ -26,6 +26,7 @@
   "homepage": "https://github.com/LuizFellype/back_giftMe#readme",
   "license": "MIT",
   "dependencies": {
+    "@types/aws-lambda": "^8.10.23",
     "bcryptjs": "^2.4.3",
     "dotenv": "^6.2.0",
     "escriba": "^2.4.0",
