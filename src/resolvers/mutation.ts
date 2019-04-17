@@ -17,10 +17,8 @@ const mutation = {
     )
   },
   login: async (parent: any, args: any, ctx: Context, info: any) => {
-    const user = await ctx.db.query.user(
-      { where: { email: args.email } },
-      `{ id name email password }`
-    )
+    const user = await ctx.db.query.user({ where: { email: args.email } })
+
     if (!user) {
       throw new Error('No such user found')
     }
