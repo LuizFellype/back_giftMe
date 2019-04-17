@@ -1,4 +1,4 @@
-# import so , ProductSubscriptionPayload, ProductOrderByInput from "./generated/prisma.graphql"
+# import * from from "./generated/prisma.graphql"
 
 type Query {
   feed(filterId: String!): [Product!]!
@@ -24,4 +24,5 @@ type User {
   email: String!
   products: [Product!]!
   partner: User
+  recognizeId: String!
 }
