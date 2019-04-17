@@ -9,24 +9,15 @@ const createId = () => uuid()
 const mutation = {
   signup: async (parent: any, args: any, ctx: Context, info: any) => {
     const password = await bcrypt.hash(args.password, 10)
-    const user = await ctx.db.mutation.createUser(
+    return ctx.db.mutation.createUser(
       {
         data: { ...args, password, recognizeId: createId() }
       },
-      `{ id }`
+      info
     )
-    const token = jwt.sign({ userId: user.id }, APP_SECRET)
-
-    return {
-      token,
-      user
-    }
   },
   login: async (parent: any, args: any, ctx: Context, info: any) => {
-    const user = await ctx.db.query.user(
-      { where: { email: args.email } },
-      ` { id password } `
-    )
+    const user = await ctx.db.query.user({ where: { email: args.email } }, info)
     if (!user) {
       throw new Error('No such user found')
     }
