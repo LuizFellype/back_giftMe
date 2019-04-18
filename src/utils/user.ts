@@ -11,7 +11,7 @@ export const uuid = (): string => {
   })
 }
 
-export const getUserId = (ctx: Context) => {
+export const getUserId = (ctx: Context): any => {
   const authorization = ctx.request.get('Authorization')
   if (authorization) {
     const token = authorization.replace('Bearer ', '')
