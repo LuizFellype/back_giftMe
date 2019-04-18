@@ -1,15 +1,15 @@
-# import so , ProductSubscriptionPayload, ProductOrderByInput from "./generated/prisma.graphql"
+# import * from from "./generated/prisma.graphql"
 
 type Query {
   feed(filterId: String!): [Product!]!
-  user: User
+  user(id: String!): User!
 }
 
 type Mutation {
   updateUser(recognizedId: String, name: String, email: String, senha: String): User!
   addPartner(recognizeId: String!): User
   post(url: String!, productName: String!): Product!
-  signup(email: String!, password: String!, name: String!): AuthPayload
+  signup(email: String!, password: String!, name: String!): User!
   login(email: String!, password: String!): AuthPayload
 }
 
@@ -24,4 +24,5 @@ type User {
   email: String!
   products: [Product!]!
   partner: User
+  recognizeId: String!
 }

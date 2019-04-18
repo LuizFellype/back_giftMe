@@ -8,7 +8,7 @@
     "start": "node dist/index.js",
     "start:dev": "nodemon -e ts,graphql -x ts-node -r dotenv/config src/index.ts",
     "playground": "graphql playground",
-    "build": "rimraf dist && graphql codegen && tsc",
+    "build": "rimraf dist && graphql get-schema -p prisma && graphql codegen && tsc",
     "prisma": "prisma",
     "test": "echo \"not implemented\"",
     "rimraf": "rimraf",
@@ -26,6 +26,7 @@
   "homepage": "https://github.com/LuizFellype/back_giftMe#readme",
   "license": "MIT",
   "dependencies": {
+    "@types/aws-lambda": "^8.10.23",
     "bcryptjs": "^2.4.3",
     "dotenv": "^6.2.0",
     "escriba": "^2.4.0",

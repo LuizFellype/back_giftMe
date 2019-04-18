@@ -1,8 +1,8 @@
 import { Context } from '../interfaces'
 
 const query = {
-  user: (parent: any, args: any, ctx: Context, info: any) => {
-    return ctx.db.query.user({ where: { id: parent.user.id } }, info)
+  user: (parent: any, { id }: any, ctx: Context, info: any) => {
+    return ctx.db.query.user({ where: { id } }, info)
   },
 
   feed: (parent: any, args: any, ctx: Context, info: any) => {
