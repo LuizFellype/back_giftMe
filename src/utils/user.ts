@@ -11,7 +11,7 @@ export const uuid = (): string => {
   })
 }
 
-export const getUserId = (ctx: Context) => {
+export const getUserId = (ctx: Context): any => {
   const authorization = ctx.request.get('Authorization')
   if (authorization) {
     const token = authorization.replace('Bearer ', '')
@@ -20,4 +20,22 @@ export const getUserId = (ctx: Context) => {
   }
 
   throw new Error('Not authenticated')
+}
+
+export const removePartnerUserConnection = async (user: any, ctx: Context) => {
+  if (!user) {
+    throw new Error('No such user found')
+  }
+
+  const partnerRecognizeId = user.partner && user.partner.recognizeId
+
+  if (partnerRecognizeId) {
+    await ctx.db.mutation.updateUser(
+      {
+        data: { partner: { disconnect: true } },
+        where: { recognizeId: partnerRecognizeId }
+      },
+      `{ name }`
+    )
+  }
 }

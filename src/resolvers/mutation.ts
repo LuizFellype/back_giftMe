@@ -2,7 +2,12 @@ import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
 import { Context } from '../interfaces'
 
-const { APP_SECRET, getUserId, uuid } = require('../utils')
+const {
+  APP_SECRET,
+  getUserId,
+  uuid,
+  removePartnerUserConnection
+} = require('../utils')
 
 const createId = () => uuid()
 
@@ -51,7 +56,23 @@ const mutation = {
     ctx: Context,
     info: any
   ) => {
-    const userId = getUserId(ctx)
+    const { userId } = getUserId(ctx)
+
+    // logged has patner && remove other-logged connection
+    const userLogged = await ctx.db.query.user(
+      { where: { id: userId } },
+      `{ partner { recognizeId } }`
+    )
+    await removePartnerUserConnection(userLogged, ctx)
+
+    // other has patner && remove third-other connection
+    const futurePartner = await ctx.db.query.user(
+      { where: { recognizeId: recognizeId } },
+      `{ partner { recognizeId } }`
+    )
+    await removePartnerUserConnection(futurePartner, ctx)
+
+    // connect logged~other
     await ctx.db.mutation.updateUser(
       {
         data: { partner: { connect: { id: userId } } },
@@ -68,7 +89,7 @@ const mutation = {
     )
   },
   updateUser: (parent: any, args: any, ctx: Context, info: any) => {
-    const userId = getUserId(ctx)
+    const { userId } = getUserId(ctx)
     return ctx.db.mutation.updateUser(
       {
         data: args,

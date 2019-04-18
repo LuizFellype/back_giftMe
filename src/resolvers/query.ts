@@ -1,8 +1,13 @@
 import { Context } from '../interfaces'
+import { getUserId } from '../utils'
 
 const query = {
-  user: (parent: any, { id }: any, ctx: Context, info: any) => {
-    return ctx.db.query.user({ where: { id } }, info)
+  user: (parent: any, args: any, ctx: Context, info: any) => {
+    const user = getUserId(ctx)
+    return ctx.db.query.user(
+      { where: { id: user.userId } },
+      `{ id name products { id productName url } partner { name recognizeId products { id productName url } } }`
+    )
   },
 
   feed: (parent: any, args: any, ctx: Context, info: any) => {
