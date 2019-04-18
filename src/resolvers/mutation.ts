@@ -51,7 +51,8 @@ const mutation = {
     ctx: Context,
     info: any
   ) => {
-    const userId = getUserId(ctx)
+    const { userId } = getUserId(ctx)
+    // connect partner with user logged in
     await ctx.db.mutation.updateUser(
       {
         data: { partner: { connect: { id: userId } } },
@@ -59,6 +60,8 @@ const mutation = {
       },
       `{ name }`
     )
+
+    // connect user logged in with partner
     return ctx.db.mutation.updateUser(
       {
         data: { partner: { connect: { recognizeId } } },
@@ -68,7 +71,7 @@ const mutation = {
     )
   },
   updateUser: (parent: any, args: any, ctx: Context, info: any) => {
-    const userId = getUserId(ctx)
+    const { userId } = getUserId(ctx)
     return ctx.db.mutation.updateUser(
       {
         data: args,
