@@ -6,7 +6,7 @@ const query = {
     const user = getUserId(ctx)
     return ctx.db.query.user(
       { where: { id: user.userId } },
-      `{ id name products { id productName url } partner { name recognizeId products { id productName url } } }`
+      `{ id name recognizeId products { id productName url } partner { name recognizeId products { id productName url } } }`
     )
   },
 
