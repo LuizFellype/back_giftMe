@@ -4,6 +4,7 @@ import { Context } from '../interfaces'
 import {
   APP_SECRET,
   getUserId,
+  INFOS,
   removePartnerUserConnection,
   uuid
 } from '../utils'
@@ -23,7 +24,7 @@ const mutation = {
   login: async (parent: any, args: any, ctx: Context, info: any) => {
     const user = await ctx.db.query.user(
       { where: { email: args.email } },
-      `{ id name email password recognizeId products { id productName url } partner { recognizeId name email products { id productName url } } }`
+      INFOS.USER
     )
 
     if (!user) {
@@ -56,7 +57,7 @@ const mutation = {
     const { userId } = getUserId(ctx)
     const userLogged = await ctx.db.query.user(
       { where: { id: userId } },
-      `{ partner { recognizeId } }`
+      INFOS.PARTNER_RECONGIZEID
     )
     await removePartnerUserConnection(userLogged, ctx)
 
@@ -77,7 +78,7 @@ const mutation = {
     // logged has patner && throw error warnning
     const userLogged = await ctx.db.query.user(
       { where: { id: userId } },
-      `{ partner { recognizeId } }`
+      INFOS.PARTNER_RECONGIZEID
     )
 
     if ((userLogged || { partner: null }).partner) {
@@ -87,26 +88,23 @@ const mutation = {
     // other has patner && throw error warnning
     const futurePartner = await ctx.db.query.user(
       { where: { recognizeId: recognizeId } },
-      `{ partner { recognizeId } }`
+      INFOS.PARTNER_RECONGIZEID
     )
     if ((futurePartner || { partner: null }).partner) {
       throw new Error(`User already connected with someone else`)
     }
 
     // connect logged~other
-    await ctx.db.mutation.updateUser(
-      {
-        data: { partner: { connect: { id: userId } } },
-        where: { recognizeId }
-      },
-      `{ name }`
-    )
+    await ctx.db.mutation.updateUser({
+      data: { partner: { connect: { id: userId } } },
+      where: { recognizeId }
+    })
     return ctx.db.mutation.updateUser(
       {
         data: { partner: { connect: { recognizeId } } },
         where: { id: userId }
       },
-      `{ partner { name recognizeId products { id productName url } } }`
+      INFOS.ADDPARNTNER
     )
   },
   updateUser: (parent: any, args: any, ctx: Context, info: any) => {
