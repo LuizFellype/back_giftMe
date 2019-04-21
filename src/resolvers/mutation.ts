@@ -1,13 +1,12 @@
 import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
 import { Context } from '../interfaces'
-
-const {
+import {
   APP_SECRET,
   getUserId,
-  uuid,
-  removePartnerUserConnection
-} = require('../utils')
+  removePartnerUserConnection,
+  uuid
+} from '../utils'
 
 const createId = () => uuid()
 
@@ -24,7 +23,7 @@ const mutation = {
   login: async (parent: any, args: any, ctx: Context, info: any) => {
     const user = await ctx.db.query.user(
       { where: { email: args.email } },
-      `{ id name password recognizeId products { id productName url } partner { recognizeId name products { id productName url } } }`
+      `{ id name email password recognizeId products { id productName url } partner { recognizeId name email products { id productName url } } }`
     )
 
     if (!user) {
@@ -53,6 +52,20 @@ const mutation = {
       info
     )
   },
+  disconnect: async (parent: any, args: any, ctx: Context, info: any) => {
+    const { userId } = getUserId(ctx)
+    const userLogged = await ctx.db.query.user(
+      { where: { id: userId } },
+      `{ partner { recognizeId } }`
+    )
+    await removePartnerUserConnection(userLogged, ctx)
+
+    await ctx.db.mutation.updateUser({
+      data: { partner: { disconnect: true } },
+      where: { id: userId }
+    })
+    return true
+  },
   addPartner: async (
     parent: any,
     { recognizeId }: any,
@@ -61,19 +74,24 @@ const mutation = {
   ) => {
     const { userId } = getUserId(ctx)
 
-    // logged has patner && remove other-logged connection
+    // logged has patner && throw error warnning
     const userLogged = await ctx.db.query.user(
       { where: { id: userId } },
       `{ partner { recognizeId } }`
     )
-    await removePartnerUserConnection(userLogged, ctx)
 
-    // other has patner && remove third-other connection
+    if ((userLogged || { partner: null }).partner) {
+      throw new Error(`You are connected with someone else`)
+    }
+
+    // other has patner && throw error warnning
     const futurePartner = await ctx.db.query.user(
       { where: { recognizeId: recognizeId } },
       `{ partner { recognizeId } }`
     )
-    await removePartnerUserConnection(futurePartner, ctx)
+    if ((futurePartner || { partner: null }).partner) {
+      throw new Error(`User already connected with someone else`)
+    }
 
     // connect logged~other
     await ctx.db.mutation.updateUser(
