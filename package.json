@@ -1,6 +1,6 @@
 {
   "name": "GIFT-ME",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "private": true,
   "description": "Api graphql prisma of GIFT-ME",
   "scripts": {
@@ -79,7 +79,7 @@
   },
   "lint-staged": {
     "src/**/*.ts": [
-      "tslint -c tslint.json",
+      "tslint -c tslint.json --fix",
       "yarn format",
       "git add"
     ]

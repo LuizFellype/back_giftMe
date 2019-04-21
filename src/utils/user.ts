@@ -27,6 +27,10 @@ export const removePartnerUserConnection = async (user: any, ctx: Context) => {
     throw new Error('No such user found')
   }
 
+  if (!(user || { partner: null }).partner) {
+    throw new Error(`You are not connected with someone`)
+  }
+
   const partnerRecognizeId = user.partner && user.partner.recognizeId
 
   if (partnerRecognizeId) {

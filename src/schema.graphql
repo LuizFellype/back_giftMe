@@ -11,6 +11,7 @@ type Mutation {
   post(url: String!, productName: String!): Product!
   signup(email: String!, password: String!, name: String!): User!
   login(email: String!, password: String!): AuthPayload
+  disconnect: Boolean!
 }
 
 type AuthPayload {
