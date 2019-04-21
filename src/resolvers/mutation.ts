@@ -41,7 +41,7 @@ const mutation = {
     return { token, user }
   },
   post: (parent: any, args: any, ctx: Context, info: any) => {
-    const userId = getUserId(ctx)
+    const { userId } = getUserId(ctx)
     return ctx.db.mutation.createProduct(
       {
         data: {

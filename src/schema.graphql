@@ -1,7 +1,6 @@
-# import * from from "./generated/prisma.graphql"
+# import * from "./generated/prisma.graphql"
 
 type Query {
-  feed(filterId: String!): [Product!]!
   user: User!
 }
 
